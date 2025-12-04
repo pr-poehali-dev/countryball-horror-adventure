@@ -4,6 +4,7 @@ import MainMenu from '@/components/MainMenu';
 import CharacterSelect from '@/components/CharacterSelect';
 import DialogueScene from '@/components/DialogueScene';
 import CustomGallery from '@/components/CustomGallery';
+import CountryballCreator from '@/components/CountryballCreator';
 import { introDialogue } from '@/data/dialogues';
 
 export default function Index() {
@@ -41,6 +42,10 @@ export default function Index() {
     setGameState({ ...gameState, currentScene: 'gallery' });
   };
 
+  const handleCreator = () => {
+    setGameState({ ...gameState, currentScene: 'creator' });
+  };
+
   const handleLanguageChange = (lang: 'ru' | 'en') => {
     setGameState({ ...gameState, language: lang });
   };
@@ -51,6 +56,7 @@ export default function Index() {
         <MainMenu 
           onStart={handleStartGame} 
           onGallery={handleGallery}
+          onCreator={handleCreator}
           language={gameState.language}
           onLanguageChange={handleLanguageChange}
         />
@@ -66,6 +72,13 @@ export default function Index() {
 
       {gameState.currentScene === 'gallery' && (
         <CustomGallery 
+          onBack={handleBackToMenu}
+          language={gameState.language}
+        />
+      )}
+
+      {gameState.currentScene === 'creator' && (
+        <CountryballCreator 
           onBack={handleBackToMenu}
           language={gameState.language}
         />

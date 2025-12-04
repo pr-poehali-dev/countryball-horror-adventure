@@ -5,16 +5,18 @@ import LanguageSwitcher from './LanguageSwitcher';
 interface MainMenuProps {
   onStart: () => void;
   onGallery: () => void;
+  onCreator: () => void;
   language: 'ru' | 'en';
   onLanguageChange: (lang: 'ru' | 'en') => void;
 }
 
-export default function MainMenu({ onStart, onGallery, language, onLanguageChange }: MainMenuProps) {
+export default function MainMenu({ onStart, onGallery, onCreator, language, onLanguageChange }: MainMenuProps) {
   const text = {
     title: language === 'ru' ? 'COUNTRYBALL' : 'COUNTRYBALL',
     subtitle: language === 'ru' ? 'HORROR GAME' : 'HORROR GAME',
     edition: language === 'ru' ? '[РЕТРО ИЗДАНИЕ]' : '[RETRO EDITION]',
     start: language === 'ru' ? 'НАЧАТЬ ИГРУ' : 'START GAME',
+    creator: language === 'ru' ? 'СОЗДАТЬ СВОЙ' : 'CREATE YOUR OWN',
     gallery: language === 'ru' ? 'ГАЛЕРЕЯ' : 'GALLERY',
     settings: language === 'ru' ? 'НАСТРОЙКИ' : 'SETTINGS',
     exit: language === 'ru' ? 'ВЫХОД' : 'EXIT',
@@ -49,6 +51,15 @@ export default function MainMenu({ onStart, onGallery, language, onLanguageChang
           >
             <Icon name="Play" className="mr-2" size={32} />
             {text.start}
+          </Button>
+
+          <Button
+            onClick={onCreator}
+            variant="outline"
+            className="w-full bg-transparent hover:bg-[#FFD700]/10 text-[#FFD700] border-[#FFD700] border-4 font-bold text-xl py-6 pixel-text shadow-[4px_4px_0px_#FFD700] hover:shadow-[2px_2px_0px_#FFD700] hover:translate-x-[2px] hover:translate-y-[2px] transition-all"
+          >
+            <Icon name="Palette" className="mr-2" size={24} />
+            {text.creator}
           </Button>
 
           <Button
