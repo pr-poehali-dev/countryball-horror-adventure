@@ -28,4 +28,14 @@ export const countries: Country[] = [
   { id: 'horror-1', name: '???', flag: '⚫', colors: ['#000000', '#FF0000'], isHorror: true },
   { id: 'horror-2', name: 'Безымянный', flag: '👁️', colors: ['#FFFFFF', '#000000'], isHorror: true },
   { id: 'horror-3', name: 'Забытый', flag: '🌑', colors: ['#1a1a1a', '#666666'], isHorror: true },
+  
+  // Special characters
+  { id: 'police', name: 'Полицейский', flag: '👮', colors: ['#0047AB', '#000000', '#FFFFFF'] },
+  { id: 'custom-1', name: 'Герой в красной рубашке', flag: '👤', colors: ['#DC143C', '#000000'] },
+  { id: 'custom-2', name: 'Герой в синей рубашке', flag: '👤', colors: ['#4169E1', '#000000'] },
+  { id: 'custom-3', name: 'Герой в зелёной рубашке', flag: '👤', colors: ['#228B22', '#000000'] },
+  { id: 'custom-4', name: 'Герой в жёлтой рубашке', flag: '👤', colors: ['#FFD700', '#000000'] },
+  { id: 'custom-5', name: 'Герой в фиолетовой рубашке', flag: '👤', colors: ['#8B008B', '#000000'] },
+  { id: 'custom-6', name: 'Герой в оранжевой рубашке', flag: '👤', colors: ['#FF8C00', '#000000'] },
+  { id: 'custom-7', name: 'Герой в белой рубашке', flag: '👤', colors: ['#F5F5F5', '#808080'] },
 ];

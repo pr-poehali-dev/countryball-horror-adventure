@@ -13,8 +13,9 @@ interface CharacterSelectProps {
 export default function CharacterSelect({ onSelect, onBack }: CharacterSelectProps) {
   const [selectedCountry, setSelectedCountry] = useState<Country | null>(null);
 
-  const normalCountries = countries.filter(c => !c.isHorror);
+  const normalCountries = countries.filter(c => !c.isHorror && !c.id.includes('custom') && c.id !== 'police');
   const horrorCountries = countries.filter(c => c.isHorror);
+  const specialCharacters = countries.filter(c => c.id.includes('custom') || c.id === 'police');
 
   return (
     <div className="min-h-screen bg-black text-[#00ff41] p-8 crt-effect">
@@ -58,6 +59,34 @@ export default function CharacterSelect({ onSelect, onBack }: CharacterSelectPro
                 <div className="flex flex-col items-center gap-3">
                   <PixelBall country={country} size="medium" />
                   <div className="text-center pixel-text text-sm">
+                    {country.name}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="mb-12">
+          <h2 className="text-2xl pixel-text mb-6 text-[#00ff41]">
+            █ ОСОБЫЕ ПЕРСОНАЖИ █
+          </h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+            {specialCharacters.map((country) => (
+              <div
+                key={country.id}
+                onClick={() => setSelectedCountry(country)}
+                className={`
+                  cursor-pointer p-4 border-4 transition-all hover:scale-105
+                  ${selectedCountry?.id === country.id 
+                    ? 'border-[#FFD700] bg-[#FFD700]/10 shadow-[0_0_20px_#FFD700]' 
+                    : 'border-[#FFD700]/30 hover:border-[#FFD700]/60'
+                  }
+                `}
+              >
+                <div className="flex flex-col items-center gap-3">
+                  <PixelBall country={country} size="medium" />
+                  <div className="text-center pixel-text text-sm text-[#FFD700]">
                     {country.name}
                   </div>
                 </div>
