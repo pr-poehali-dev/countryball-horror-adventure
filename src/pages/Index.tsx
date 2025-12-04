@@ -3,12 +3,14 @@ import { Country, GameState } from '@/types/game';
 import MainMenu from '@/components/MainMenu';
 import CharacterSelect from '@/components/CharacterSelect';
 import DialogueScene from '@/components/DialogueScene';
+import CustomGallery from '@/components/CustomGallery';
 import { introDialogue } from '@/data/dialogues';
 
 export default function Index() {
   const [gameState, setGameState] = useState<GameState>({
     currentScene: 'menu',
     dialogueProgress: 0,
+    language: 'ru',
   });
 
   const handleStartGame = () => {
@@ -31,19 +33,41 @@ export default function Index() {
     setGameState({ 
       currentScene: 'menu',
       dialogueProgress: 0,
+      language: gameState.language,
     });
+  };
+
+  const handleGallery = () => {
+    setGameState({ ...gameState, currentScene: 'gallery' });
+  };
+
+  const handleLanguageChange = (lang: 'ru' | 'en') => {
+    setGameState({ ...gameState, language: lang });
   };
 
   return (
     <div className="min-h-screen bg-black">
       {gameState.currentScene === 'menu' && (
-        <MainMenu onStart={handleStartGame} />
+        <MainMenu 
+          onStart={handleStartGame} 
+          onGallery={handleGallery}
+          language={gameState.language}
+          onLanguageChange={handleLanguageChange}
+        />
       )}
 
       {gameState.currentScene === 'characters' && (
         <CharacterSelect 
           onSelect={handleCharacterSelect}
           onBack={handleBackToMenu}
+          language={gameState.language}
+        />
+      )}
+
+      {gameState.currentScene === 'gallery' && (
+        <CustomGallery 
+          onBack={handleBackToMenu}
+          language={gameState.language}
         />
       )}
 

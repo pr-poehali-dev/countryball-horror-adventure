@@ -8,14 +8,24 @@ import { useState } from 'react';
 interface CharacterSelectProps {
   onSelect: (country: Country) => void;
   onBack: () => void;
+  language: 'ru' | 'en';
 }
 
-export default function CharacterSelect({ onSelect, onBack }: CharacterSelectProps) {
+export default function CharacterSelect({ onSelect, onBack, language }: CharacterSelectProps) {
   const [selectedCountry, setSelectedCountry] = useState<Country | null>(null);
 
-  const normalCountries = countries.filter(c => !c.isHorror && !c.id.includes('custom') && c.id !== 'police');
+  const normalCountries = countries.filter(c => !c.isHorror && !c.isHuman);
   const horrorCountries = countries.filter(c => c.isHorror);
-  const specialCharacters = countries.filter(c => c.id.includes('custom') || c.id === 'police');
+  const humanCharacters = countries.filter(c => c.isHuman);
+
+  const text = {
+    title: language === 'ru' ? 'ВЫБОР ПЕРСОНАЖА' : 'CHARACTER SELECT',
+    back: language === 'ru' ? 'НАЗАД' : 'BACK',
+    countries: language === 'ru' ? '█ ОБЫЧНЫЕ СТРАНЫ █' : '█ REGULAR COUNTRIES █',
+    humans: language === 'ru' ? '█ ЛЮДИ ПРОТИВ КАНТРИБОЛОВ █' : '█ HUMANS VS COUNTRYBALLS █',
+    horror: language === 'ru' ? '█ ТАИНСТВЕННЫЕ СУЩНОСТИ █' : '█ MYSTERIOUS ENTITIES █',
+    select: language === 'ru' ? 'ВЫБРАТЬ' : 'SELECT',
+  };
 
   return (
     <div className="min-h-screen bg-black text-[#00ff41] p-8 crt-effect">
@@ -29,11 +39,11 @@ export default function CharacterSelect({ onSelect, onBack }: CharacterSelectPro
             className="text-[#00ff41] hover:text-[#00dd35] pixel-text text-xl"
           >
             <Icon name="ArrowLeft" className="mr-2" />
-            НАЗАД
+            {text.back}
           </Button>
           
           <h1 className="text-4xl md:text-5xl font-bold pixel-text glitch-text">
-            ВЫБОР ПЕРСОНАЖА
+            {text.title}
           </h1>
           
           <div className="w-32" />
@@ -41,7 +51,7 @@ export default function CharacterSelect({ onSelect, onBack }: CharacterSelectPro
 
         <div className="mb-12">
           <h2 className="text-2xl pixel-text mb-6 text-[#00ff41] opacity-70">
-            █ ОБЫЧНЫЕ СТРАНЫ █
+            {text.countries}
           </h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
             {normalCountries.map((country) => (
@@ -59,7 +69,7 @@ export default function CharacterSelect({ onSelect, onBack }: CharacterSelectPro
                 <div className="flex flex-col items-center gap-3">
                   <PixelBall country={country} size="medium" />
                   <div className="text-center pixel-text text-sm">
-                    {country.name}
+                    {language === 'en' && country.nameEn ? country.nameEn : country.name}
                   </div>
                 </div>
               </div>
@@ -68,11 +78,11 @@ export default function CharacterSelect({ onSelect, onBack }: CharacterSelectPro
         </div>
 
         <div className="mb-12">
-          <h2 className="text-2xl pixel-text mb-6 text-[#00ff41]">
-            █ ОСОБЫЕ ПЕРСОНАЖИ █
+          <h2 className="text-2xl pixel-text mb-6 text-[#FFD700]">
+            {text.humans}
           </h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
-            {specialCharacters.map((country) => (
+            {humanCharacters.map((country) => (
               <div
                 key={country.id}
                 onClick={() => setSelectedCountry(country)}
@@ -87,7 +97,7 @@ export default function CharacterSelect({ onSelect, onBack }: CharacterSelectPro
                 <div className="flex flex-col items-center gap-3">
                   <PixelBall country={country} size="medium" />
                   <div className="text-center pixel-text text-sm text-[#FFD700]">
-                    {country.name}
+                    {language === 'en' && country.nameEn ? country.nameEn : country.name}
                   </div>
                 </div>
               </div>
@@ -97,7 +107,7 @@ export default function CharacterSelect({ onSelect, onBack }: CharacterSelectPro
 
         <div className="mb-12">
           <h2 className="text-2xl pixel-text mb-6 text-red-600 animate-pulse">
-            █ ТАИНСТВЕННЫЕ СУЩНОСТИ █
+            {text.horror}
           </h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
             {horrorCountries.map((country) => (
@@ -130,7 +140,7 @@ export default function CharacterSelect({ onSelect, onBack }: CharacterSelectPro
               className="bg-[#00ff41] hover:bg-[#00dd35] text-black font-bold text-2xl px-12 py-8 pixel-text border-4 border-[#008822] shadow-[6px_6px_0px_#008822] hover:shadow-[3px_3px_0px_#008822] hover:translate-x-[3px] hover:translate-y-[3px] transition-all"
             >
               <Icon name="Check" className="mr-2" size={32} />
-              ВЫБРАТЬ {selectedCountry.name.toUpperCase()}
+              {text.select} {(language === 'en' && selectedCountry.nameEn ? selectedCountry.nameEn : selectedCountry.name).toUpperCase()}
             </Button>
           </div>
         )}

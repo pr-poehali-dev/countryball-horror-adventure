@@ -1,26 +1,44 @@
 import { Button } from '@/components/ui/button';
 import Icon from '@/components/ui/icon';
+import LanguageSwitcher from './LanguageSwitcher';
 
 interface MainMenuProps {
   onStart: () => void;
+  onGallery: () => void;
+  language: 'ru' | 'en';
+  onLanguageChange: (lang: 'ru' | 'en') => void;
 }
 
-export default function MainMenu({ onStart }: MainMenuProps) {
+export default function MainMenu({ onStart, onGallery, language, onLanguageChange }: MainMenuProps) {
+  const text = {
+    title: language === 'ru' ? 'COUNTRYBALL' : 'COUNTRYBALL',
+    subtitle: language === 'ru' ? 'HORROR GAME' : 'HORROR GAME',
+    edition: language === 'ru' ? '[РЕТРО ИЗДАНИЕ]' : '[RETRO EDITION]',
+    start: language === 'ru' ? 'НАЧАТЬ ИГРУ' : 'START GAME',
+    gallery: language === 'ru' ? 'ГАЛЕРЕЯ' : 'GALLERY',
+    settings: language === 'ru' ? 'НАСТРОЙКИ' : 'SETTINGS',
+    exit: language === 'ru' ? 'ВЫХОД' : 'EXIT',
+    press: language === 'ru' ? '█ PRESS START █' : '█ PRESS START █',
+  };
   return (
     <div className="min-h-screen bg-black flex flex-col items-center justify-center p-8 crt-effect relative overflow-hidden">
       <div className="scanlines" />
       <div className="glitch-overlay" />
       
+      <div className="absolute top-4 right-4 z-20">
+        <LanguageSwitcher language={language} onLanguageChange={onLanguageChange} />
+      </div>
+
       <div className="z-10 text-center space-y-8 animate-fade-in">
         <div className="space-y-4">
           <h1 className="text-6xl md:text-8xl font-bold text-[#00ff41] pixel-text glitch-text mb-4">
-            COUNTRYBALL
+            {text.title}
           </h1>
           <h2 className="text-4xl md:text-6xl font-bold text-red-600 pixel-text glitch-text-red">
-            HORROR GAME
+            {text.subtitle}
           </h2>
           <div className="text-[#00ff41] text-sm pixel-text mt-8 opacity-70">
-            [РЕТРО ИЗДАНИЕ]
+            {text.edition}
           </div>
         </div>
 
@@ -30,7 +48,16 @@ export default function MainMenu({ onStart }: MainMenuProps) {
             className="w-full bg-[#00ff41] hover:bg-[#00dd35] text-black font-bold text-2xl py-8 pixel-text border-4 border-[#008822] shadow-[4px_4px_0px_#008822] hover:shadow-[2px_2px_0px_#008822] hover:translate-x-[2px] hover:translate-y-[2px] transition-all"
           >
             <Icon name="Play" className="mr-2" size={32} />
-            НАЧАТЬ ИГРУ
+            {text.start}
+          </Button>
+
+          <Button
+            onClick={onGallery}
+            variant="outline"
+            className="w-full bg-transparent hover:bg-[#00ff41]/10 text-[#00ff41] border-[#00ff41] border-4 font-bold text-xl py-6 pixel-text shadow-[4px_4px_0px_#00ff41] hover:shadow-[2px_2px_0px_#00ff41] hover:translate-x-[2px] hover:translate-y-[2px] transition-all"
+          >
+            <Icon name="Image" className="mr-2" size={24} />
+            {text.gallery}
           </Button>
 
           <Button
@@ -38,7 +65,7 @@ export default function MainMenu({ onStart }: MainMenuProps) {
             className="w-full bg-transparent hover:bg-[#00ff41]/10 text-[#00ff41] border-[#00ff41] border-4 font-bold text-xl py-6 pixel-text shadow-[4px_4px_0px_#00ff41] hover:shadow-[2px_2px_0px_#00ff41] hover:translate-x-[2px] hover:translate-y-[2px] transition-all"
           >
             <Icon name="Settings" className="mr-2" size={24} />
-            НАСТРОЙКИ
+            {text.settings}
           </Button>
 
           <Button
@@ -46,12 +73,12 @@ export default function MainMenu({ onStart }: MainMenuProps) {
             className="w-full bg-transparent hover:bg-red-600/10 text-red-600 border-red-600 border-4 font-bold text-xl py-6 pixel-text shadow-[4px_4px_0px_#ff0000] hover:shadow-[2px_2px_0px_#ff0000] hover:translate-x-[2px] hover:translate-y-[2px] transition-all"
           >
             <Icon name="LogOut" className="mr-2" size={24} />
-            ВЫХОД
+            {text.exit}
           </Button>
         </div>
 
         <div className="text-[#00ff41] text-xs pixel-text mt-12 opacity-50 animate-pulse">
-          █ PRESS START █
+          {text.press}
         </div>
       </div>
 
