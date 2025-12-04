@@ -1,14 +1,120 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from 'react';
+import { Country, GameState } from '@/types/game';
+import MainMenu from '@/components/MainMenu';
+import CharacterSelect from '@/components/CharacterSelect';
+import DialogueScene from '@/components/DialogueScene';
+import { introDialogue } from '@/data/dialogues';
 
-const Index = () => {
+export default function Index() {
+  const [gameState, setGameState] = useState<GameState>({
+    currentScene: 'menu',
+    dialogueProgress: 0,
+  });
+
+  const handleStartGame = () => {
+    setGameState({ ...gameState, currentScene: 'characters' });
+  };
+
+  const handleCharacterSelect = (country: Country) => {
+    setGameState({ 
+      ...gameState, 
+      currentScene: 'dialogue',
+      selectedCountry: country,
+    });
+  };
+
+  const handleDialogueComplete = () => {
+    setGameState({ ...gameState, currentScene: 'gameplay' });
+  };
+
+  const handleBackToMenu = () => {
+    setGameState({ 
+      currentScene: 'menu',
+      dialogueProgress: 0,
+    });
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4 color-black text-black">Добро пожаловать!</h1>
-        <p className="text-xl text-gray-600">тут будет отображаться ваш проект</p>
-      </div>
+    <div className="min-h-screen bg-black">
+      {gameState.currentScene === 'menu' && (
+        <MainMenu onStart={handleStartGame} />
+      )}
+
+      {gameState.currentScene === 'characters' && (
+        <CharacterSelect 
+          onSelect={handleCharacterSelect}
+          onBack={handleBackToMenu}
+        />
+      )}
+
+      {gameState.currentScene === 'dialogue' && (
+        <DialogueScene 
+          dialogue={introDialogue}
+          onComplete={handleDialogueComplete}
+        />
+      )}
+
+      {gameState.currentScene === 'gameplay' && (
+        <div className="min-h-screen flex items-center justify-center bg-black crt-effect">
+          <div className="text-center space-y-8 z-10 relative">
+            <div className="text-6xl pixel-text text-[#00ff41] glitch-text">
+              [УРОВЕНЬ 1]
+            </div>
+            <div className="text-3xl pixel-text text-white">
+              Игровой процесс в разработке...
+            </div>
+            <button
+              onClick={handleBackToMenu}
+              className="mt-8 bg-[#00ff41] hover:bg-[#00dd35] text-black font-bold text-xl px-8 py-4 pixel-text border-4 border-[#008822] shadow-[4px_4px_0px_#008822] transition-all"
+            >
+              ВЕРНУТЬСЯ В МЕНЮ
+            </button>
+          </div>
+          <div className="scanlines" />
+          
+          <style>{`
+            @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+            
+            .pixel-text {
+              font-family: 'VT323', monospace;
+              letter-spacing: 2px;
+            }
+            
+            .crt-effect {
+              background: radial-gradient(ellipse at center, #0a0a0a 0%, #000000 100%);
+            }
+            
+            .scanlines {
+              position: absolute;
+              top: 0;
+              left: 0;
+              right: 0;
+              bottom: 0;
+              background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.15),
+                rgba(0, 0, 0, 0.15) 1px,
+                transparent 1px,
+                transparent 2px
+              );
+              pointer-events: none;
+              animation: scanline 8s linear infinite;
+            }
+            
+            @keyframes scanline {
+              0% { transform: translateY(0); }
+              100% { transform: translateY(10px); }
+            }
+            
+            .glitch-text {
+              text-shadow: 
+                2px 2px 0px #00ff41,
+                -2px -2px 0px #00ff41,
+                0 0 20px #00ff41;
+            }
+          `}</style>
+        </div>
+      )}
     </div>
   );
-};
-
-export default Index;
+}
