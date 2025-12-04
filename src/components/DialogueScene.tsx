@@ -78,7 +78,7 @@ export default function DialogueScene({ dialogue, onComplete }: DialogueScenePro
           </div>
         </div>
 
-        <div className="bg-black/80 border-t-4 border-[#00ff41] p-8 backdrop-blur-sm">
+        <div className="bg-black/95 border-t-4 border-[#00ff41] p-8">
           <div className="max-w-4xl mx-auto">
             <div className="mb-4 flex items-center gap-4">
               <div className="text-2xl">
