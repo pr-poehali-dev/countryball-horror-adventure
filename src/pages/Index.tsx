@@ -1,8 +1,11 @@
 import { useState } from 'react';
 import { Country, GameState } from '@/types/game';
+import { Level, levels } from '@/types/levels';
 import MainMenu from '@/components/MainMenu';
 import CharacterSelect from '@/components/CharacterSelect';
 import DialogueScene from '@/components/DialogueScene';
+import LevelSelect from '@/components/LevelSelect';
+import LevelGameplay from '@/components/LevelGameplay';
 import CustomGallery from '@/components/CustomGallery';
 import CountryballCreator from '@/components/CountryballCreator';
 import { introDialogue } from '@/data/dialogues';
@@ -27,7 +30,19 @@ export default function Index() {
   };
 
   const handleDialogueComplete = () => {
-    setGameState({ ...gameState, currentScene: 'gameplay' });
+    setGameState({ ...gameState, currentScene: 'levels' });
+  };
+
+  const handleLevelStart = (level: Level) => {
+    setGameState({ 
+      ...gameState, 
+      currentScene: 'gameplay',
+      selectedLevel: level.id,
+    });
+  };
+
+  const handleLevelComplete = () => {
+    setGameState({ ...gameState, currentScene: 'levels' });
   };
 
   const handleBackToMenu = () => {
@@ -91,7 +106,25 @@ export default function Index() {
         />
       )}
 
-      {gameState.currentScene === 'gameplay' && (
+      {gameState.currentScene === 'levels' && (
+        <LevelSelect 
+          onBack={handleBackToMenu}
+          onLevelStart={handleLevelStart}
+          language={gameState.language}
+        />
+      )}
+
+      {gameState.currentScene === 'gameplay' && gameState.selectedLevel && gameState.selectedCountry && (
+        <LevelGameplay 
+          level={levels.find(l => l.id === gameState.selectedLevel)!}
+          character={gameState.selectedCountry}
+          onComplete={handleLevelComplete}
+          onBack={() => setGameState({ ...gameState, currentScene: 'levels' })}
+          language={gameState.language}
+        />
+      )}
+
+      {gameState.currentScene === 'gameplay' && !gameState.selectedLevel && (
         <div className="min-h-screen flex items-center justify-center bg-black crt-effect">
           <div className="text-center space-y-8 z-10 relative">
             <div className="text-6xl pixel-text text-[#00ff41] glitch-text">

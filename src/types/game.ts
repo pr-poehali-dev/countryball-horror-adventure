@@ -17,8 +17,9 @@ export interface DialogueLine {
 }
 
 export interface GameState {
-  currentScene: 'menu' | 'characters' | 'dialogue' | 'gameplay' | 'gallery' | 'creator';
+  currentScene: 'menu' | 'characters' | 'dialogue' | 'levels' | 'gameplay' | 'gallery' | 'creator';
   selectedCountry?: Country;
+  selectedLevel?: number;
   dialogueProgress: number;
   language: 'ru' | 'en';
 }
