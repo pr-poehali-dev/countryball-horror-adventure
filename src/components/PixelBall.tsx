@@ -36,7 +36,7 @@ export default function PixelBall({ country, size = 'medium', showEyes = true, e
             ? `linear-gradient(135deg, ${country.colors[0]}, ${country.colors[1]})`
             : `linear-gradient(180deg, ${country.colors.join(', ')})`,
           imageRendering: 'pixelated',
-          boxShadow: country.isHorror ? '0 0 20px rgba(255, 0, 0, 0.5)' : '0 4px 8px rgba(0,0,0,0.3)',
+          boxShadow: country.isHorror ? '0 0 20px rgba(255, 0, 0, 0.5)' : 'none',
         }}
       >
         {showEyes && (
